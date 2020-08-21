@@ -1,0 +1,33 @@
+<form>
+
+
+    {# @TODO: bootstrap #}
+    <div style="float: left">
+
+        new <br>
+        population
+
+    </div>
+
+
+    <div style="float: left">
+
+        <input type="text" name="name" value="{{ data.name ?? '' }} ">       <br>
+        <input type="text" name="population"  value="{{ data.population ?? '' }} ">
+
+    </div>
+
+
+
+    <br>
+
+
+    <input type="hidden" name="new_country" value="1">
+
+    <br>    <br>
+
+
+    <input type="submit" value="send">
+
+
+</form>

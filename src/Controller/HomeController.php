@@ -12,8 +12,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class HomeController
+ * @package App\Controller
+ */
 class   HomeController extends AbstractController
 {
+
+
+    // @TODO: prior action process logic, always possibly redirect to the single place
+    // on other side disadvantage that must be sent exact action to distingush edit from create , even when redirect to the same
+    // rename vars or generic , and specialize custom, sometimes to redirect new, sometimes to say, update
+    //
+
     /**
      * @Route("/home", name="home")
      */
@@ -27,11 +38,6 @@ class   HomeController extends AbstractController
             ->execute()
             ->fetchAll();
 
-//        // todo reference as singleton in bootstrap, nope: kernel not available from outside
-//        $this->get('twig')->addGlobal(
-//            'flashMessages',
-//            FlashMessage::get()
-//        );
 
         return $this->render(
             'Home/index.html.twig',
@@ -46,12 +52,38 @@ class   HomeController extends AbstractController
     /**
      * @Route("edit/{id}", name="country_edit", methods={"GET","POST"})
      */
-    public function edit($id)
+    public function edit($id , Request $request, Connection $connection, FlashMessageService $flashMessage)
     {
+
+        $rep = new CountryRepository($connection);
+
+
+        if ($request->get('new_country')) {
+
+
+            $flashMessage->add("Item edited");
+
+            $rep = new CountryRepository($connection);
+
+            // or sent an entire array
+            $rep->edit(
+                $id,
+                $request->get('name'),
+                $request->get('population')
+            );
+
+            //return $this->redirectToRoute('home');
+        }
+
+
+
+        $item = $rep->find($id);
+
+
         return $this->render(
             'Home/edit.html.twig',
             [
-                //'data' => $data
+                'data' => $item
             ]
         );
 
@@ -67,6 +99,7 @@ class   HomeController extends AbstractController
     )
     {
 
+        // hs_ hiddenSignal_ prefix
         if ($request->get('new_country')) {
 
             //FlashMessage::add("Item added");
@@ -88,23 +121,6 @@ class   HomeController extends AbstractController
         }
 
 
-//        // todo reference as singleton in bootstrap
-//        $this->get('twig')->addGlobal(
-//            'flashMessages',
-//            FlashMessage::get()
-//        );
-
-        // add repository class
-
-//        $queryBuilder = $connection->createQueryBuilder();
-//        $queryBuilder->insert("countries")
-//            ->values(
-//                [
-//                    "id"         => "''",
-//                    "name"       => "'" . $request->get('name') . "'",
-//                    "population" => "'" . $request->get('population') . "'",
-//                ]
-//            )->execute();
 
 
         return $this->render(

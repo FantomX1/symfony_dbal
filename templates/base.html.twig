@@ -9,6 +9,14 @@
     <h2>headline</h2>
 
 
+    <div style="color: red">
+
+        {%   for message in flashS.get %}
+
+            {{ message }}
+
+        {%  endfor %}
+    </div>
 
 
         {% block body %}{% endblock %}

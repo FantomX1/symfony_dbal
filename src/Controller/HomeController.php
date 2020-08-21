@@ -26,11 +26,11 @@ class   HomeController extends AbstractController
             ->execute()
             ->fetchAll();
 
-        // todo reference as singleton in bootstrap
-        $this->get('twig')->addGlobal(
-            'flashMessages',
-            FlashMessage::get()
-        );
+//        // todo reference as singleton in bootstrap, nope: kernel not available from outside
+//        $this->get('twig')->addGlobal(
+//            'flashMessages',
+//            FlashMessage::get()
+//        );
 
         return $this->render(
             'Home/index.html.twig',
@@ -44,15 +44,21 @@ class   HomeController extends AbstractController
     /**
      * @Route("/home/new", name="home/new")
      */
-    public function new(Request $request, Connection $connection)
+    public function new(
+        Request $request,
+        Connection $connection,
+        FlashMessage $flashMessage
+    )
     {
-
-
-
 
         if ($request->get('new_country')) {
 
-            FlashMessage::add("Item added");
+            //FlashMessage::add("Item added");
+            // @TODO: still duplicated
+
+            //  Service  not found: even though it exists in the app's container, the container inside "App\Controller\HomeController" is a smaller service locator that only knows about the
+            //$this->get('flashMessage')->add("Item added");
+            $flashMessage->add("Item added");
 
             $rep = new CountryRepository($connection);
 
@@ -66,15 +72,11 @@ class   HomeController extends AbstractController
         }
 
 
-
-
-
-
-        // todo reference as singleton in bootstrap
-        $this->get('twig')->addGlobal(
-            'flashMessages',
-            FlashMessage::get()
-        );
+//        // todo reference as singleton in bootstrap
+//        $this->get('twig')->addGlobal(
+//            'flashMessages',
+//            FlashMessage::get()
+//        );
 
         // add repository class
 
@@ -91,8 +93,7 @@ class   HomeController extends AbstractController
 
         return $this->render(
             'Home/new.html.twig',
-            [
-            ]
+            []
         );
     }
 }

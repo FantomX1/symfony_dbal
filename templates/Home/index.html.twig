@@ -31,7 +31,12 @@
 
             <th>Country</th>
 
+
             <th>Population</th>
+
+            <th>Action</th>
+
+
 
 
         </tr>
@@ -62,6 +67,14 @@
                 </td>
 
 
+
+                <td>
+
+                    <a href=" {{ path('country_edit', {'id': country.id}) }}">
+                        Edit
+                    </a>
+
+                </td>
 
 
             </tr>

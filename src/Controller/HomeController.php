@@ -42,6 +42,21 @@ class   HomeController extends AbstractController
     }
 
 
+
+    /**
+     * @Route("edit/{id}", name="country_edit", methods={"GET","POST"})
+     */
+    public function edit($id)
+    {
+        return $this->render(
+            'Home/edit.html.twig',
+            [
+                //'data' => $data
+            ]
+        );
+
+    }
+
     /**
      * @Route("/home/new", name="home/new")
      */

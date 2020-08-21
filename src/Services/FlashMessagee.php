@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Components;
+namespace App\Services;
 
 
 // @TODO: Dynamically, not to be dependent

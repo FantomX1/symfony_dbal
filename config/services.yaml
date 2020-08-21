@@ -29,3 +29,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    flashMessage:
+        # uses laravel data access object in symphony dependency injection
+        class: \App\Services\FlashMessageService
+        public: true

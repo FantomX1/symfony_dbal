@@ -20,6 +20,18 @@ $session->set('foo', 'bar');
 class FlashMessage
 {
 
+    static $selfRef;
+
+    public static function getObject()
+    {
+        if (!static::$selfRef) {
+            static::$selfRef = new static();
+        }
+
+        return static::$selfRef;
+
+    }
+
     /**
      * @var
      */

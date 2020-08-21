@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 // @TODO: Dynamically, not to be dependent
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * SessionInterface $session)
@@ -22,6 +23,19 @@ class FlashMessageService
 
 
     /**
+     * @var Session
+     */
+    private $session;
+
+    public function __construct()
+    {
+
+        // copy to submethods, so it is less time in memory
+        $this->session = new Session();
+    }
+
+
+    /**
      * @var
      */
     private  $messages;
@@ -30,29 +44,23 @@ class FlashMessageService
     public function add($message)
     {
 
-        @session_start();
+        $this->messages[] = $message;
+        $this->session->set('flash_messages', $this->messages);
 
-
-        $_SESSION['flash_messages'] = $this->messages[] = $message;
-        // when static destructor non existant, sync each time
     }
 
 
     public  function get()
     {
 
-        @session_start();
+        //@session_start();
 
         if (empty($this->messages)) {
-            $this->messages = $_SESSION['flash_messages'] ?? [];
+            $this->messages = $this->session->get('flash_messages');
         }
 
-        $_SESSION['flash_messages']  = [];
-
+        $this->session->set('flash_messages',[]);
         return $this->messages;
-
-        //return static::$messages;
-
     }
 
 
@@ -60,6 +68,10 @@ class FlashMessageService
     {
 
         // $_SESSION['flash_messages'] = static::$messages;
+
+
+        // @TODO: doesn't work in destructor needs to set also in add each time above
+        //$this->session->set('flash_messages', $this->messages);
 
     }
 

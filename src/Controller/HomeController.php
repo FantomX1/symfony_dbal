@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Components\FlashMessage;
 use App\Repository\CountryRepository;
+use App\Services\FlashMessageService;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -47,7 +48,7 @@ class   HomeController extends AbstractController
     public function new(
         Request $request,
         Connection $connection,
-        FlashMessage $flashMessage
+        FlashMessageService $flashMessage
     )
     {
 

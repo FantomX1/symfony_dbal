@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Components\FlashMessage;
 use App\Repository\CountryRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +26,12 @@ class   HomeController extends AbstractController
             ->execute()
             ->fetchAll();
 
+        // todo reference as singleton in bootstrap
+        $this->get('twig')->addGlobal(
+            'flashMessages',
+            FlashMessage::get()
+        );
+
         return $this->render(
             'Home/index.html.twig',
             [
@@ -44,13 +51,15 @@ class   HomeController extends AbstractController
 
 
         if ($request->get('new_country')) {
+
+            FlashMessage::add("Item added");
+
             $rep = new CountryRepository($connection);
 
             $rep->insert(
                 $request->get('name'),
                 $request->get('population')
             );
-
 
             return $this->redirectToRoute('home');
 
@@ -61,6 +70,11 @@ class   HomeController extends AbstractController
 
 
 
+        // todo reference as singleton in bootstrap
+        $this->get('twig')->addGlobal(
+            'flashMessages',
+            FlashMessage::get()
+        );
 
         // add repository class
 

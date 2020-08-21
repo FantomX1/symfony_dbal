@@ -3,15 +3,35 @@
 
 {% block body %}
 
+    <a href="{{ path('home') }}">Back</a>
 
 <form>
 
-    new <input type="text" name="name"><br>
-    population <input type="text" name="population">
+
+    {# @TODO: bootstrap #}
+    <div style="float: left">
+
+        new <br>
+        population
+
+    </div>
+
+
+    <div style="float: left">
+        <input type="text" name="name"><br>
+         <input type="text" name="population">
+
+    </div>
+
+
+
     <br>
 
 
     <input type="hidden" name="new_country" value="1">
+
+    <br>    <br>
+
 
     <input type="submit" value="send">
 

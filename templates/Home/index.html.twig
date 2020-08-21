@@ -4,6 +4,21 @@
 {% block body %}
 
 
+{#    {{ dump(flashMessages) }}#}
+
+
+    <div style="color: red">
+
+    {%  for message in flashMessages %}
+
+
+        {{ message }}
+
+    {%  endfor %}
+
+    </div>
+
+
 
 <a href="{{  path('home/new') }}">Create new country</a> <br><br>
 

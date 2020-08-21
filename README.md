@@ -2,6 +2,6 @@
 
 
 
-[tutorial](tutorial.mhtml)
+[tutorial](tutorial/dbal/tutorial.mhtml)
 
 http://zetcode.com/symfony/dbal/

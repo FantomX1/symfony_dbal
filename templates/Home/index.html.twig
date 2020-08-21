@@ -1,0 +1,70 @@
+{%  extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+
+<a href="{{  path('home/new') }}">Create new country</a> <br><br>
+
+    <table border=1>
+
+
+        <thead>
+
+        <tr>
+
+            <th>Country</th>
+
+            <th>Population</th>
+
+
+        </tr>
+
+        </thead>
+
+
+
+
+        <tbody>
+
+
+        {%  for country in data %}
+
+            <tr>
+
+                <td>
+
+                    {{ country.name }}
+
+                </td>
+
+
+                <td>
+
+                    {{ country.population }}
+
+                </td>
+
+
+
+
+            </tr>
+
+        {%  endfor %}
+
+
+
+
+        </tbody>
+
+
+    </table>
+
+
+
+
+{% endblock %}
+
+
+

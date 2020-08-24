@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class TwigEventSubscriber implements EventSubscriberInterface
 {
 
-
     /**
      * @var FlashMessageService
      */

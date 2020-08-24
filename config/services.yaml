@@ -34,3 +34,8 @@ services:
         # uses laravel data access object in symphony dependency injection
         class: \App\Services\FlashMessageService
         public: true
+
+# not needed anymore since even events can be autowired implicitly via constructor
+#    requestSubscriber:
+#        class: App\EventSubscriber\RequestService
+#        arguments: [ '@=service("Doctrine\DBAL\Driver\Connection")']

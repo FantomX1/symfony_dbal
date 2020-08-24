@@ -7,7 +7,6 @@ use App\Repository\CountryRepository;
 use App\Services\FlashMessageService;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class HomeController
  * @package App\Controller
  */
-class   HomeController extends AbstractController
+class HomeController extends AbstractController
 {
 
 
@@ -52,7 +51,12 @@ class   HomeController extends AbstractController
     /**
      * @Route("edit/{id}", name="country_edit", methods={"GET","POST"})
      */
-    public function edit($id , Request $request, Connection $connection, FlashMessageService $flashMessage)
+    public function edit(
+        $id ,
+        Request $request,
+        Connection $connection,
+        FlashMessageService $flashMessage
+    )
     {
 
         $rep = new CountryRepository($connection);
@@ -75,10 +79,7 @@ class   HomeController extends AbstractController
             //return $this->redirectToRoute('home');
         }
 
-
-
         $item = $rep->find($id);
-
 
         return $this->render(
             'Home/edit.html.twig',
@@ -99,33 +100,40 @@ class   HomeController extends AbstractController
     )
     {
 
+
         // hs_ hiddenSignal_ prefix
-        if ($request->get('new_country')) {
-
-            //FlashMessage::add("Item added");
-            // @TODO: still duplicated
-
-            //  Service  not found: even though it exists in the app's container, the container inside "App\Controller\HomeController" is a smaller service locator that only knows about the
-            //$this->get('flashMessage')->add("Item added");
-            $flashMessage->add("Item added");
-
-            $rep = new CountryRepository($connection);
-
-            $rep->insert(
-                $request->get('name'),
-                $request->get('population')
-            );
-
-            return $this->redirectToRoute('home');
-
-        }
-
-
-
+//        if ($request->get('new_country')) {
+//
+//            //FlashMessage::add("Item added");
+//            // @TODO: still duplicated
+//
+//            //  Service  not found: even though it exists in the app's container, the container inside "App\Controller\HomeController" is a smaller service locator that only knows about the
+//            //$this->get('flashMessage')->add("Item added");
+//            $flashMessage->add("Item added");
+//
+//            $rep = new CountryRepository($connection);
+//
+//            $rep->insert(
+//                $request->get('name'),
+//                $request->get('population')
+//            );
+//
+//            return $this->redirectToRoute('home');
+//        }
 
         return $this->render(
             'Home/new.html.twig',
             []
         );
     }
+
+
+//    public function setContainer(ContainerInterface $container = null, Request $request): ?ContainerInterface
+//    {
+//        return parent::setContainer($container);
+//        //$this->containerInitialized();
+//    }
+
+
+
 }

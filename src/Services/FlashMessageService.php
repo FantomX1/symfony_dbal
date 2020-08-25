@@ -6,6 +6,7 @@ namespace App\Services;
 
 // @TODO: Dynamically, not to be dependent
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * SessionInterface $session)
@@ -27,11 +28,12 @@ class FlashMessageService
      */
     private $session;
 
-    public function __construct()
+    public function __construct(SessionInterface $session)
     {
 
         // copy to submethods, so it is less time in memory
-        $this->session = new Session();
+        // $this->session = new Session();
+         $this->session = $session;
     }
 
 

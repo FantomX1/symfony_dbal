@@ -4,6 +4,26 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+
+
+
+
+        <script type="text/javascript" src="assets/jquery-3.5.1.js">
+        </script>
+
+        <script type="text/javascript" src="assets/notify.js">
+        </script>
+
+        <script type="text/javascript" src="assets/boilerplate.js">
+        </script>
+
+        <script type="text/javascript" src="assets/bootstrap.js">
+        </script>
+
+
+        <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+
     </head>
     <body>
     <h2>headline</h2>
@@ -18,6 +38,18 @@
         {%  endfor %}
     </div>
 
+
+    <script type="text/javascript">
+        $.notify({ },{
+            position: "bottom right",
+            autoHide: false,
+            // className: cssName,
+            clickToHide: false,
+        });
+
+
+        $.notify("Access granted", "success");
+    </script>
 
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}

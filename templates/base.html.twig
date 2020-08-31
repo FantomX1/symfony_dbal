@@ -83,8 +83,10 @@ $.notify.addStyle('foo', {
         "<div class='buttons'>" +
         "<span class='taskId ' style='display:none' data-notify-html='taskId'></span>"+
 
-        "<button class='list  btn btn-success btn-mini'>Show tasks</button>" +
+        "<a href='tasks/list'><button class='list  btn btn-success btn-mini'>Show tasks</button></a>" +
+        //"<a data-notify-text='taskId' href='tasks/edit/taskId'>" +
         "<button class='detail  btn btn-info btn-mini' data-notify-text='button'></button>" +
+        //"</a>" +
         "</div>" +
         "</div>" +
         "</div>"
@@ -100,10 +102,10 @@ $(document).on('click', '.notifyjs-wrapper  .detail', function() {
     location.href = 'tasks/edit/'+taskId;
     $(this).trigger('notify-hide');
 });
-$(document).on('click', '.notifyjs-wrapper .list', function() {
-    location.href = 'tasks/list';
-    $(this).trigger('notify-hide');
-});
+// $(document).on('click', '.notifyjs-wrapper .list', function() {
+//     location.href = 'tasks/list';
+//     $(this).trigger('notify-hide');
+// });
 
 
 
@@ -119,6 +121,16 @@ function callNotify() {
                     //      JSON.parse('{"id":"59","title":"somethin new","description":"hoppa","user":null,"startTs":null,"createdTs":"2020-08-27 02:25:17","resolvedTs":null,"status":null,"resolvedStatus":null}')
                     //  );
                     // JSON.parse(data);
+
+
+
+                    window.setTimeout(
+                        function() {
+                            callNotify();
+                        },
+                        2000
+                    );
+
 
                     // if (data.status != "changed") {
                     if (data['status'] != "changed") {
@@ -141,12 +153,7 @@ function callNotify() {
                     // alert(data);
                     // var jsonData = $.parseJson(data);
 
-                    window.setTimeout(
-                        function() {
-                            callNotify();
-                        },
-                        2000
-                    );
+
 
 
                 }

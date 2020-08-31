@@ -33,7 +33,10 @@ class TasksContoller extends AbstractController
     /**
      * @Route("/tasks/ping", name="tasks_ping")
      */
-    public function actionPing(Connection $conn, SessionInterface $session)
+    public function actionPing(
+        Connection $conn,
+        SessionInterface $session
+    )
     {
         $response = new Response();
         $response->headers->set('Content-Type', 'application/json');
@@ -41,19 +44,19 @@ class TasksContoller extends AbstractController
         $tr = new TaskRepository($conn);
 
         $taskId = null;
-        $status = "NA";
+        $status = "unknown";
 
         if ($task = $tr->getNewestTask()) {
             $taskId = $task['id'];
         }
 
-
         $last = $session->get('latest_task');
         //$last = $_SESSION['latest_task'] ?? null;
-        //if (!isset($last) || $last != $taskId || !is_int($last)) {
+
         // taskId is in db so it is int, can not be tampered by different val anyway, at most not being positive
 
         // decide prior last session value, and set flags, prior setting it again to session
+        //if (!isset($last) || $last != $taskId || !is_int($last)) {
         if (isset($last) && is_numeric($taskId) && is_numeric($last) &&  $last == $taskId) {
             $status = "same";
         } elseif (is_numeric($taskId)) {
@@ -61,12 +64,25 @@ class TasksContoller extends AbstractController
             $session->set('latest_task', $taskId);
         }
 
+        if (!$task) {
+            $status = 'NA';
+        }
+
+        $result = [
+            'status'=> $status
+        ];
+
+        if ($task) {
+            $result['task'] = $task;
+        }
+
         $response->setContent(
             json_encode(
-                [
-                    'status' => $status,
-                    'task'   => $task
-                ]
+                $result
+//                [
+//                    'status' => $status,
+//                    'task'   => $task
+//                ]
             )
         );
 

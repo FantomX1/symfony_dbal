@@ -49,11 +49,20 @@ class TwigEventSubscriber implements EventSubscriberInterface
     {
         $controller = $event->getController();
 
-
         if (!array_key_exists(0,$controller) || !$controller[0] instanceof AbstractController) {
             return;
         }
 
+        // $b = $controller[0];
+
+        list(, $action) = explode(
+            "::",
+            $event->getRequest()->attributes->get('_controller')
+        );
+
+        if ($action != "new") {
+            return;
+        }
 
         $connection   = $this->connection;
         $flashMessage = $this->flashMessageService;
@@ -63,7 +72,10 @@ class TwigEventSubscriber implements EventSubscriberInterface
         // $request      = $event->getKernel()->getRequest()
         $request      = $event->getRequest();
 
+
+
         if ($request->get('new_country')) {
+            // and getting action and parameters before, finding out, same action, same params, use in url
 
             //FlashMessage::add("Item added");
             // @TODO: still duplicated
@@ -82,9 +94,11 @@ class TwigEventSubscriber implements EventSubscriberInterface
 
             $redirectUrl = $router->generate('home');
             //$controller[0]->get
-            $event->setController(function() use ($redirectUrl) {
-                return new RedirectResponse($redirectUrl);
-            });
+            $event->setController(
+                function() use ($redirectUrl) {
+                    return new RedirectResponse($redirectUrl);
+                }
+            );
 
             //return $controller[0]->redirectToRoute('home');
         }

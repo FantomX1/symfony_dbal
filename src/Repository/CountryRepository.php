@@ -34,6 +34,26 @@ class CountryRepository
 
 
     /**
+     * @return mixed[]
+     */
+    public function getList()
+    {
+        $conn = $this->connection;
+        $queryBuilder = $conn->createQueryBuilder();
+
+        $data = $queryBuilder
+            ->select('*')
+            ->from('countries')
+            ->execute()
+            ->fetchAll();
+
+
+        return $data;
+
+    }
+
+
+    /**
      * @param $id
      * @return mixed
      */

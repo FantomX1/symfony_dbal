@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Components\FlashMessage;
 use App\Repository\CountryRepository;
+use App\Repository\TaskRepository;
 use App\Services\FlashMessageService;
 use Doctrine\DBAL\Connection;
+
+use fantomx1\datatables\widgets\DataTableWidget;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,29 +22,28 @@ class HomeController extends AbstractController
 {
 
 
-    // @TODO: prior action process logic, always possibly redirect to the single place
-    // on other side disadvantage that must be sent exact action to distingush edit from create , even when redirect to the same
-    // rename vars or generic , and specialize custom, sometimes to redirect new, sometimes to say, update
-    //
-
     /**
-     * @Route("/home", name="home")
+     * @Route("/")
+     * @Route("/home")
+     * @Route(name="home")
      */
     public function index(Connection $conn):Response
     {
-        $queryBuilder = $conn->createQueryBuilder();
 
-        $data = $queryBuilder
-            ->select('*')
-            ->from('countries')
-            ->execute()
-            ->fetchAll();
+        $tasks = new TaskRepository($conn);
+        $tasks->add("somethin new", "hoppa");
 
+        //$dt = new DataTableWidget();
+        //$dt->run();
+
+
+        $rep = new CountryRepository($conn);
+        $list = $rep->getList();
 
         return $this->render(
             'Home/index.html.twig',
             [
-                'data' => $data
+                'data' => $list
             ]
         );
     }
@@ -76,6 +78,8 @@ class HomeController extends AbstractController
                 $request->get('population')
             );
 
+            // prevent resubmission
+            //return $this->redirectToRoute('country_edit', [ 'id' => $id ] );
             //return $this->redirectToRoute('home');
         }
 
@@ -99,27 +103,8 @@ class HomeController extends AbstractController
         FlashMessageService $flashMessage
     )
     {
-
-
-        // hs_ hiddenSignal_ prefix
-//        if ($request->get('new_country')) {
-//
-//            //FlashMessage::add("Item added");
-//            // @TODO: still duplicated
-//
-//            //  Service  not found: even though it exists in the app's container, the container inside "App\Controller\HomeController" is a smaller service locator that only knows about the
-//            //$this->get('flashMessage')->add("Item added");
-//            $flashMessage->add("Item added");
-//
-//            $rep = new CountryRepository($connection);
-//
-//            $rep->insert(
-//                $request->get('name'),
-//                $request->get('population')
-//            );
-//
-//            return $this->redirectToRoute('home');
-//        }
+        // if ($request->get('new_country')) {
+        // moved to events
 
         return $this->render(
             'Home/new.html.twig',
@@ -128,6 +113,7 @@ class HomeController extends AbstractController
     }
 
 
+// at this stage Request service not available
 //    public function setContainer(ContainerInterface $container = null, Request $request): ?ContainerInterface
 //    {
 //        return parent::setContainer($container);

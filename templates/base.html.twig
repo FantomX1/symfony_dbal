@@ -38,17 +38,128 @@
         {%  endfor %}
     </div>
 
+    <style type="text/css">
+
+        .notifyjs-foo-base {
+            opacity: 0.85;
+            width: 200px;
+            background: #F5F5F5;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .notifyjs-foo-base .title {
+            width: 100px;
+            float: left;
+            margin: 10px 0 0 10px;
+            text-align: right;
+        }
+
+        .notifyjs-foo-base .buttons {
+            width: 70px;
+            float: right;
+            font-size: 9px;
+            padding: 5px;
+            margin: 2px;
+        }
+
+        .notifyjs-foo-base button {
+            font-size: 9px;
+            padding: 5px;
+            margin: 2px;
+            width: 60px;
+        }
+    </style>
+
 
     <script type="text/javascript">
-        $.notify({ },{
-            position: "bottom right",
-            autoHide: false,
-            // className: cssName,
-            clickToHide: false,
-        });
 
 
-        $.notify("Access granted", "success");
+$.notify.addStyle('foo', {
+    html:
+        "<div>" +
+        "<div class='clearfix'>" +
+        "<div class='title' data-notify-html='title'></div>" +
+        "<div class='buttons'>" +
+        "<span class='taskId ' style='display:none' data-notify-html='taskId'></span>"+
+
+        "<button class='list  btn btn-success btn-mini'>Show tasks</button>" +
+        "<button class='detail  btn btn-info btn-mini' data-notify-text='button'></button>" +
+        "</div>" +
+        "</div>" +
+        "</div>"
+});
+
+
+
+
+
+
+$(document).on('click', '.notifyjs-wrapper  .detail', function() {
+    var taskId = $(this).closest('div.buttons').find('span.taskId').html();
+    location.href = 'tasks/edit/id/'+taskId;
+    $(this).trigger('notify-hide');
+});
+$(document).on('click', '.notifyjs-wrapper .list', function() {
+    location.href = 'tasks/list';
+    $(this).trigger('notify-hide');
+});
+
+
+
+function callNotify() {
+
+        $.ajax(
+            {
+                url:'tasks/ping',
+                success: function(data) {
+                    // alert(data);
+                    //   console.log(data);
+                    //  console.log(
+                    //      JSON.parse('{"id":"59","title":"somethin new","description":"hoppa","user":null,"startTs":null,"createdTs":"2020-08-27 02:25:17","resolvedTs":null,"status":null,"resolvedStatus":null}')
+                    //  );
+                    // JSON.parse(data);
+
+                    $.notify({
+                        title: 'Tasks notifications ',
+                        // title: 'Would you like some Fooaa ?',
+                        button: 'Show task #'+data.id+' '+data.title,
+                        taskId: data.id,
+                    }, {
+                        style: 'foo',
+                        autoHide: false,
+                        clickToHide: false
+                    });
+
+                    // alert(data);
+                    // var jsonData = $.parseJson(data);
+
+                    window.setTimeout(
+                        function() {
+                            callNotify();
+                        },
+                        2000
+                    );
+
+
+                }
+            }
+        );
+}
+
+
+callNotify();
+
+
+        // $.notify({ },{
+        //     position: "bottom right",
+        //     autoHide: false,
+        //     // className: cssName,
+        //     clickToHide: false,
+        // });
+        //
+        //
+        // $.notify("Access granted", "success");
     </script>
 
         {% block body %}{% endblock %}

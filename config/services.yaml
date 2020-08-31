@@ -35,6 +35,12 @@ services:
         class: \App\Services\FlashMessageService
         public: true
 
+#    symfonyDbExecutor:
+    fantomx1\datatables\plugins\queryExecutor\classes\SymfonyQueryExecutorPlugin:
+        class: fantomx1\datatables\plugins\queryExecutor\classes\SymfonyQueryExecutorPlugin
+        public: true
+
+
 # not needed anymore since even events can be autowired implicitly via constructor
 #    requestSubscriber:
 #        class: App\EventSubscriber\RequestService

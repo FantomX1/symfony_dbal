@@ -97,7 +97,7 @@ $.notify.addStyle('foo', {
 
 $(document).on('click', '.notifyjs-wrapper  .detail', function() {
     var taskId = $(this).closest('div.buttons').find('span.taskId').html();
-    location.href = 'tasks/edit/id/'+taskId;
+    location.href = 'tasks/edit/'+taskId;
     $(this).trigger('notify-hide');
 });
 $(document).on('click', '.notifyjs-wrapper .list', function() {
@@ -120,11 +120,18 @@ function callNotify() {
                     //  );
                     // JSON.parse(data);
 
+                    // if (data.status != "changed") {
+                    if (data['status'] != "changed") {
+                        console.log(data);
+                        return;
+                    }
+
+
                     $.notify({
                         title: 'Tasks notifications ',
                         // title: 'Would you like some Fooaa ?',
-                        button: 'Show task #'+data.id+' '+data.title,
-                        taskId: data.id,
+                        button: 'Show task #'+data['task'].id+' '+data['task'].title,
+                        taskId: data['task'].id,
                     }, {
                         style: 'foo',
                         autoHide: false,

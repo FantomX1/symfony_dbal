@@ -46,6 +46,22 @@ class TaskRepository
 
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function find($id)
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+
+        return $queryBuilder
+            ->select('*')
+            ->from('tasks')
+            ->where("id=".$id)
+            ->execute()
+            ->fetch();
+    }
+
 
     /**
      * @return mixed

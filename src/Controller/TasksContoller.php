@@ -10,42 +10,88 @@ use fantomx1\datatables\widgets\DataTableWidget;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class TasksContoller
+ * @package App\Controller
+ */
 class TasksContoller extends AbstractController
 {
+
+
+    /**
+     * TasksContoller constructor.
+     * @param Connection $conn
+     */
+    public function __construct(Connection $conn)
+    {
+        $this->connection = $conn;
+    }
 
     /**
      * @Route("/tasks/ping", name="tasks_ping")
      */
-    public function actionPing(Connection $conn)
+    public function actionPing(Connection $conn, SessionInterface $session)
     {
         $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
 
         $tr = new TaskRepository($conn);
-        $tr->getNewestTask();
+
+        $taskId = null;
+        $status = "NA";
+
+        if ($task = $tr->getNewestTask()) {
+            $taskId = $task['id'];
+        }
+
+
+        $last = $session->get('latest_task');
+        //$last = $_SESSION['latest_task'] ?? null;
+        //if (!isset($last) || $last != $taskId || !is_int($last)) {
+        // taskId is in db so it is int, can not be tampered by different val anyway, at most not being positive
+
+        // decide prior last session value, and set flags, prior setting it again to session
+        if (isset($last) && is_numeric($taskId) && is_numeric($last) &&  $last == $taskId) {
+            $status = "same";
+        } elseif (is_numeric($taskId)) {
+            $status = 'changed';
+            $session->set('latest_task', $taskId);
+        }
 
         $response->setContent(
             json_encode(
-                $tr->getNewestTask()
-//                [
-//                'data' => "123",
-//                ]
+                [
+                    'status' => $status,
+                    'task'   => $task
+                ]
             )
         );
-
-        $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }
 
 
     /**
-     * @TODO:
      * @Route("tasks/edit/{id}", name="tasks_edit", methods={"GET","POST"})
      */
-    public function actionEdit()
+    public function actionEdit($id)
     {
+
+        $rep = new TaskRepository($this->connection);
+
+        $rep = $rep->find($id);
+
+//        var_dump($rep);
+
+        return $this->render(
+            'Tasks/edit.html.twig',
+            [
+                //'data'=> $data
+            ]
+        );
 
     }
 

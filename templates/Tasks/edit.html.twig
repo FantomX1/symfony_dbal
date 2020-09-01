@@ -3,32 +3,146 @@
 
 {% block body %}
 
+
+    <style>
+
+        table.settingsLister th {
+            text-align: right
+        }
+
+    </style>
+
     <a href="{{ path('home') }}">Back</a>
 
 
     <div style="float: right; border: 1px solid black; width: 300px">
 
 
+        <table class="settingsLister">
+
+            <tr>
+
+                <th>
+
+                    <strong>Created</strong> <br>
+
+                </th>
+
+
+                <td>
+                    {{ dateHelper.formatDate(data.createdTs) }}
+
+                </td>
+
+
+            </tr>
+
+
+            <tr>
+
+                <th>
+
+                    <strong>Resolved</strong> <br>
+
+                </th>
+
+
+                <td>
+                    {{  data.resolvedTs }}<br>
+
+                </td>
+
+
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    <strong>Started</strong> <br>
+
+                </th>
+
+
+                <td>
+                    {{  data.startTs }}<br>
+
+                </td>
+
+
+            </tr>
+
+
+
+
+
+            <tr>
+
+                <th>
+
+                    <strong>Modified</strong> <br>
+
+                </th>
+
+
+                <td>
+                    {{ "NA" }}<br>
+
+                </td>
+
+
+            </tr>
+
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+
+
+
+            <tr>
+
+                <th>
+
+
+                    <strong>Status</strong> <br>
+
+                </th>
+
+
+                <td>
+                    {{  data.status }}<br>
+
+                </td>
+
+
+            </tr>
+
+        </table>
+
+
 
         <div style="float:left; text-align: right; padding: 5px;">
-
-            <strong>Created</strong> <br>
-            <strong>Resolved</strong> <br>
-            <strong>Started</strong> <br>
-            <strong>Modified</strong> <br>
-            <strong>Status</strong> <br>
-
 
         </div>
 
 
         <div style=" padding: 5px;">
-            {{ dateHelper.formatDate(data.createdTs) }}
+
 {#            {{  data.createdTs }}<br>#}
-            {{  data.resolvedTs }}<br>
-            {{  data.startTs }}<br>
-            {{ "NA" }}<br>
-            {{  data.status }}<br>
+
+
+
+
 
         </div>
 
@@ -41,13 +155,14 @@
 
 
 
-    <form>
+    <form method="post">
 
         <div style="float:left; padding: 5px; text-align: right; ">
 
             <strong>Title</strong><br>
             <strong>Description</strong><br>
             <strong>User</strong><br>
+            <strong>Status</strong><br>
 
 
         </div>
@@ -55,17 +170,40 @@
 
         <div>
 
+            <input type="text" name="task[title]" value="{{ data.title }}"> <br>
+
+
+            <input type="text" name="task[description]" value="{{ data.description }}"> <br>
+
+            <input type="text" name="task[user]" value="{{ data.user }}"> <br>
+
+
+            <select name="task[status]">
+
+            {% for key, status in statuses %}
+
+                    {% set selected = '' %}
+                    {#                        {% if (oneSupervisor.fname ~ ' ' ~ oneSupervisor.lname) == user.supervisor %}#}
+                    {% if key == data.status %}
+                        {% set selected = 'selected' %}
+                    {% endif %}
+
+                    <option value="{{ key }}" {{ selected }}>
+
+
+                        {{ status }}
+                    </option>
 
 
 
-        <input type="text" name="name" value="{{ data.title }}"> <br>
+                {% endfor %}
 
 
-        <input type="text" name="description" value="{{ data.description }}"> <br>
-
-        <input type="text" name="user" value="{{ data.user }}"> <br>
+            </select>
 
         </div>
+
+        <button type="submit" name="task_submit" value="1" class="btn btn-info">Save</button>
 
     </form>
 

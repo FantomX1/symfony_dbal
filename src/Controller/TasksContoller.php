@@ -10,6 +10,7 @@ use fantomx1\datatables\plugins\queryExecutor\classes\YiiQueryExecutorPlugin;
 use fantomx1\datatables\widgets\DataTableWidget;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -94,12 +95,23 @@ class TasksContoller extends AbstractController
     /**
      * @Route("tasks/edit/{id}", name="tasks_edit", methods={"GET","POST"})
      */
-    public function actionEdit($id)
+    public function actionEdit(
+        $id,
+        Request $request
+    )
     {
 
-        $rep = new TaskRepository($this->connection);
+        $tr = new TaskRepository($this->connection);
 
-        $rep = $rep->find($id);
+        if ($request->get('task_submit') ) {
+            $tr->edit(
+                $id, $request->get('task')
+            );
+        }
+
+
+
+        $task = $tr->find($id);
 
 //        var_dump($rep);
 
@@ -107,7 +119,8 @@ class TasksContoller extends AbstractController
             'Tasks/edit.html.twig',
             [
                 'dateHelper'=>new DateHelpers(),
-                'data'=> $rep
+                'data' => $task,
+                'statuses' => $tr->getAvailableStatuses()
             ]
         );
 

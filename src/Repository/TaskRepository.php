@@ -139,6 +139,8 @@ class TaskRepository
     public function edit($id, $array)
     {
 
+        // check this repository D(ata)AO po(p)o support at least a subset of errors without nasty error ,(at most log not needed),
+        // or check lengthy existance to be handled and redirected or flashed at controller, but db query is slow, physically erased or soft deleted
         if (!is_numeric($id) || $id<1) {
             return;
         }

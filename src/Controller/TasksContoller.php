@@ -2,6 +2,7 @@
 
 
 namespace App\Controller;
+use App\Components\DateHelpers;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Connection;
 use fantomx1\datatables\plugins\queryExecutor\classes\SymfonyQueryExecutorPlugin;
@@ -105,7 +106,8 @@ class TasksContoller extends AbstractController
         return $this->render(
             'Tasks/edit.html.twig',
             [
-                //'data'=> $data
+                'dateHelper'=>new DateHelpers(),
+                'data'=> $rep
             ]
         );
 

@@ -13,6 +13,19 @@ use Doctrine\DBAL\Connection;
 class TaskRepository
 {
 
+
+
+    const STATUS_OPEN = 1;
+    const STATUS_IN_PROGRESS = 2;
+    const STATUS_RESOLVED = 3;
+
+
+    const RESULT_NOT_SOLVED=0;
+    const RESULT_RESOLVED=1;
+    const RESULT_WONT_FIX=2;
+    const RESULT_REJECTED=3;
+
+
     /**
      * @var Connection $connection
      */

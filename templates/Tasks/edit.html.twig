@@ -6,6 +6,70 @@
     <a href="{{ path('home') }}">Back</a>
 
 
+    <div style="float: right; border: 1px solid black; width: 300px">
+
+
+
+        <div style="float:left; text-align: right; padding: 5px;">
+
+            <strong>Created</strong> <br>
+            <strong>Resolved</strong> <br>
+            <strong>Started</strong> <br>
+            <strong>Modified</strong> <br>
+            <strong>Status</strong> <br>
+
+
+        </div>
+
+
+        <div style=" padding: 5px;">
+            {{ dateHelper.formatDate(data.createdTs) }}
+{#            {{  data.createdTs }}<br>#}
+            {{  data.resolvedTs }}<br>
+            {{  data.startTs }}<br>
+            {{ "NA" }}<br>
+            {{  data.status }}<br>
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+    <form>
+
+        <div style="float:left; padding: 5px; text-align: right; ">
+
+            <strong>Title</strong><br>
+            <strong>Description</strong><br>
+            <strong>User</strong><br>
+
+
+        </div>
+
+
+        <div>
+
+
+
+
+        <input type="text" name="name" value="{{ data.title }}"> <br>
+
+
+        <input type="text" name="description" value="{{ data.description }}"> <br>
+
+        <input type="text" name="user" value="{{ data.user }}"> <br>
+
+        </div>
+
+    </form>
+
+
 
 
 

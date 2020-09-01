@@ -120,6 +120,7 @@ class TasksContoller extends AbstractController
             [
                 'dateHelper'=>new DateHelpers(),
                 'data' => $task,
+                // prevent accidentally calling something else on an entity/object with insert, update operations or scattered inside html passing full object
                 'statuses' => $tr->getAvailableStatuses()
             ]
         );

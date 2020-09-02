@@ -132,9 +132,17 @@ class TasksContoller extends AbstractController
 
         $tr = new TaskRepository($this->connection);
 
-        if ($request->get('task_submit') ) {
+        if ($request->get('task_form') == "task_submit") {
             $tr->edit(
                 $id, $request->get('task')
+            );
+        }
+
+
+        if ($request->get('task_form') == "task_resolve") {
+            $tr->edit(
+                $id,
+                ['status' => TaskRepository::STATUS_RESOLVED]
             );
         }
 

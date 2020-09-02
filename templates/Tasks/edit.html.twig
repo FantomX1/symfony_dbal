@@ -207,7 +207,7 @@
 
 
 
-        <button type="submit" name="task_submit" value="1" class="btn btn-info">Save</button>
+        <button type="submit" name="task_form" value="task_submit" class="btn btn-info">Save</button>
 
         <br><br>
 
@@ -218,11 +218,11 @@
         {% endif %}
 
         <a href="{{ path('tasks_start', {'id': data.id}) }}">
-            <button  class="btn btn-warning" {{ disabled }}>Start</button>
+            <button type="button"  class="btn btn-warning" {{ disabled }}>Start</button>
         </a>
 
 
-        <button type="submit" name="task_resolve" value="1" class="btn btn-error">Resolve</button>
+        <button type="submit" name="task_form" value="task_resolve" class="btn btn-error">Resolve</button>
 
     </form>
 

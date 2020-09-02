@@ -92,6 +92,32 @@ class TasksContoller extends AbstractController
     }
 
 
+
+    /**
+     * @Route("tasks/start/{id}", name="tasks_start", methods={"GET","POST"})
+     */
+    public function actionStartTask(
+        $id,
+        Request $request
+    )
+    {
+        if (!$id) {
+            $this->redirectToRoute("home");
+        }
+
+        $tr = new TaskRepository($this->connection);
+
+        $tr->edit(
+            $id,
+            ['status' => TaskRepository::STATUS_IN_PROGRESS]
+            //$request->get('task')
+        );
+
+        return $this->redirectToRoute('tasks_edit', ['id'=>$id]);
+
+    }
+
+
     /**
      * @Route("tasks/edit/{id}", name="tasks_edit", methods={"GET","POST"})
      */

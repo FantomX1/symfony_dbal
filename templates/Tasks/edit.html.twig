@@ -208,8 +208,9 @@
     </form>
 
 
-    # @TODO: progress buttons
-
+    <a href="{{ path('tasks_start', {'id': data.id}) }}">
+    <button  class="btn btn-warning">Start</button>
+    </a>
 
 
 {% endblock %}

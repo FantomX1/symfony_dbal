@@ -107,11 +107,14 @@ class TasksContoller extends AbstractController
 
         $tr = new TaskRepository($this->connection);
 
-        $tr->edit(
-            $id,
-            ['status' => TaskRepository::STATUS_IN_PROGRESS]
-            //$request->get('task')
-        );
+
+        $tr->startTask($id);
+
+//        $tr->edit(
+//            $id,
+//            ['status' => TaskRepository::STATUS_IN_PROGRESS]
+//            //$request->get('task')
+//        );
 
         return $this->redirectToRoute('tasks_edit', ['id'=>$id]);
 

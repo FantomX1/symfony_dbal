@@ -134,6 +134,17 @@ class TaskRepository
 
     /**
      * @param $id
+     */
+    public function startTask($id)
+    {
+        $this->edit(
+            $id,
+            ['status' => TaskRepository::STATUS_IN_PROGRESS]
+        );
+    }
+
+    /**
+     * @param $id
      * @param $array
      */
     public function edit($id, $array)
